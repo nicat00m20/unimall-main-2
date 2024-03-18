@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head th:replace="/fragments/admin-header :: head">
+    </head>
+    </head>
+
+    <body class="nav-md">
+        <div class="container body">
+        <div class="main_container">
+            <div th:replace="fragments/admin-left-menu :: div"></div>
+            <div th:replace="fragments/admin-navigation :: div"></div>
+
+       <!-- page content -->
+       <div class="right_col" role="main">
+        <div class="">
+          <div class="page-title">
+            <div class="title_left">
+              <h3>Add Category</h3>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <div class="row" style="display: block;">
+            <div class="col-md-6 col-sm-6  ">
+       <div class="x_panel">
+        <div class="x_title">
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Settings 1</a>
+                  <a class="dropdown-item" href="#">Settings 2</a>
+                </div>
+            </li>
+            <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+    <form action="/adminpanel/add-category" method="POST" enctype="multipart/form-data">
+        
+        
+        <div class="form-group row ">
+            <label class="control-label col-md-3 col-sm-3 ">Category name:</label>
+            <div class="col-md-9 col-sm-9 ">
+                <input id="category_name" name="category_name" type="text" class="form-control" required placeholder="Category name">
+            </div>
+        </div>
+        <br>
+        <div class="form-group row">
+            <label class="control-label col-md-3 col-sm-3 ">Choose Category:</label>
+            <div class="col-md-9 col-sm-9 ">
+                <select id="category_parentid" name="category_parentid" class="form-control">
+                    <option>Choose option</option>
+                    <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                    
+                </select>
+            </div>
+        </div>
+        
+        
+        
+        <input type="submit" value="Submit" class="btn btn-round btn-primary">
+    </form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+ <!-- /page content -->
+
+  <!-- footer content -->
+  <footer th:replace="fragments/admin-footer :: footer">
+  
+  </footer>
+  <!-- /footer content -->
+
+</div>
+
+</div>
+
+
+
+</body>
+</html>
