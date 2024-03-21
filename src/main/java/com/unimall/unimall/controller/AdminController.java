@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,8 +52,8 @@ public class AdminController {
 		List<Category> categoryList= categoryService.getAll();
         model.addAttribute("categories",categoryList);
         Product product = productService.getProduct(id);
-       model.addAttribute("product", product);
-        return "adminpanel/update_product";
+        model.addAttribute("product", product);
+        return "adminpanel/products.html";
 	}
 
     @GetMapping("/adminpanel/home")
@@ -89,9 +90,12 @@ public class AdminController {
 
     @GetMapping("/adminpanel/products")
 	public String products(Model model) {
-        List<Product> productList= productService.getProducts();
-        model.addAttribute("products",productList);
-		return "adminpanel/products";
+         List<Product> productList= productService.getProducts();
+         model.addAttribute("products",productList);
+        
+         List<Category> categoryList= categoryService.getAll();
+         model.addAttribute("categories",categoryList);
+        return "adminpanel/products";
 	}
 
     @PostMapping("/adminpanel/add-product")
@@ -109,6 +113,30 @@ public class AdminController {
         productService.addProduct(productInputModel);
         return new RedirectView("http://localhost:8080/home");
 	}
+
+    @PostMapping("/adminpanel/update-product/{id}")
+	public RedirectView updateproduct(@PathVariable Long id, @RequestParam String product_name,String product_description,Long category,@RequestParam MultipartFile product_image, Model model) {
+        UUID uuid = UUID.randomUUID();
+        String file_name = uuid.toString().concat(getFileExtension(product_image.getOriginalFilename()));
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file_name);
+        try {
+            Files.write(fileNameAndPath, product_image.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ProductInputModel productInputModel = new ProductInputModel(product_name, product_description, 0, category,"/images/"+file_name );
+        productService.updateProduct(productInputModel,id);
+        return new RedirectView("http://localhost:8080/adminpanel/products");
+	}
+
+    
+    @DeleteMapping("/adminpanel/delete-product/{id}")
+    public RedirectView deleteProduct(@PathVariable Long id) {
+       productService.deleteProduct(id);
+       return new RedirectView("http://localhost:8080/home");
+    }
+    
     private String getFileExtension(String name) {
         int lastIndexOf = name.lastIndexOf(".");
         if (lastIndexOf == -1) {

@@ -59,10 +59,15 @@ public class ProductServiceImpl implements ProductService {
             return "Product with an id of "+id+" could not be found!";
         }
     }
-    public Object updateProduct(String newName, Long id){
+    public Object updateProduct(ProductInputModel productInputModel , Long id){
         Product product = productRepository.findById(id).orElse(null);
         if(product != null){
-            product.setName(newName);
+          
+          product.setName(productInputModel.productName());
+            
+        product.setDescription(productInputModel.description());
+         product.setCategory(productInputModel.category());
+        product.setImage(productInputModel.image());
         return productRepository.save(product);
         }else{
             return "Product with an id of "+id+" could not be found!";

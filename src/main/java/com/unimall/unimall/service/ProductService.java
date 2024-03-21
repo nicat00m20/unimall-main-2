@@ -12,6 +12,6 @@ public interface  ProductService {
      List<Product> getProducts();
      Object activateProduct(Long id);
      Object deleteProduct(Long id);
-     Object updateProduct(String newName, Long id);
+     Object updateProduct(ProductInputModel productInputModel, Long id);
      Product getProduct(Long id);
 }

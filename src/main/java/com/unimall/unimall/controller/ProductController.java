@@ -60,7 +60,7 @@ public class ProductController {
     @Operation(summary = "Update  Product", description = "there you can update product", tags = {"Product"})
     @PutMapping("/{id}")
     public Object updateProduct(@PathVariable Long id, @RequestBody String newName){
-        return productService.updateProduct(newName, id);
+         return productService.updateProduct(new ProductInputModel(newName,"",0,Long.valueOf(0),""), id);
     }
 
 }
